@@ -3,6 +3,9 @@ package com.example.myapplication
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -14,6 +17,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
@@ -22,11 +26,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyApplicationTheme {
-                MyApp(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(color = MaterialTheme.colorScheme.onBackground)
-                )
+                MyApp(modifier = Modifier.fillMaxSize())
                 // TextCompose(modifier = Modifier)
             }
         }
@@ -79,7 +79,7 @@ fun OnboardingScreen(modifier: Modifier = Modifier, onClick: () -> Unit) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Welcome to the Basics Codelab!", color = MaterialTheme.colorScheme.background)
+        Text("Welcome to the Basics Codelab!")
         Button(
             modifier = Modifier.padding(vertical = 24.dp),
             onClick = onClick
@@ -92,7 +92,14 @@ fun OnboardingScreen(modifier: Modifier = Modifier, onClick: () -> Unit) {
 @Composable
 fun Greeting(name: String) {
     var expanded by rememberSaveable { mutableStateOf(false) }
-    val extraPadding = if (expanded) 48.dp else 0.dp
+    //val extraPadding = if (expanded) 48.dp else 0.dp
+    val extraPadding by animateDpAsState(
+        if (expanded) 48.dp else 0.dp,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        )
+    )
 
     Surface(
         modifier = Modifier
@@ -104,14 +111,17 @@ fun Greeting(name: String) {
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(bottom = extraPadding)
+                    .padding(bottom = extraPadding.coerceAtLeast(0.dp))
             ) {
                 Text(text = "Hello")
-                Text(text = name)
+                Text(
+                    text = name, style = MaterialTheme.typography.headlineMedium.copy(
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                )
             }
             ButtonComposable(
-                text = if (expanded) "Show Less" else "Show More",
-                color = MaterialTheme.colorScheme.onBackground
+                text = if (expanded) "Show Less" else "Show More"
             ) {
                 expanded = !expanded
             }
@@ -123,15 +133,15 @@ fun Greeting(name: String) {
 fun ButtonComposable(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color,
+    color: Color = MaterialTheme.colorScheme.onPrimary,
     onClick: () -> Unit
 ) {
     ElevatedButton(
         modifier = modifier,
-        colors = ButtonDefaults.buttonColors(containerColor = color),
+        /*colors = ButtonDefaults.buttonColors(containerColor = color),*/
         onClick = onClick
     ) {
-        Text(text = text)
+        Text(text = text /*color = MaterialTheme.colorScheme.primary*/)
     }
 }
 

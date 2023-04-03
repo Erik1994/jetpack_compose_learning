@@ -16,7 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
 
-private val DarkColorScheme = darkColorScheme(
+private val DarkColorPalette = darkColorScheme(
     primary = Green80,
     onPrimary = Green20,
     primaryContainer = Green30,
@@ -26,26 +26,26 @@ private val DarkColorScheme = darkColorScheme(
     onSecondary = DarkGreen20,
     secondaryContainer = DarkGreen30,
     onSecondaryContainer = DarkGreen90,
-    tertiary = Violet80,
-    onTertiary = Violet20,
-    tertiaryContainer = Violet30,
-    onTertiaryContainer = Violet90,
+    tertiary = Orange80,
+    onTertiary = Orange20,
+    tertiaryContainer = Orange30,
+    onTertiaryContainer = Orange90,
     error = Red80,
     onError = Red20,
     errorContainer = Red30,
     onErrorContainer = Red90,
     background = Grey10,
     onBackground = Grey90,
-    surface = GreenGrey30,
-    onSurface = GreenGrey80,
+    surface = Grey10,
+    onSurface = Grey80,
     inverseSurface = Grey90,
-    inverseOnSurface = Grey10,
+    inverseOnSurface = Grey20,
     surfaceVariant = GreenGrey30,
     onSurfaceVariant = GreenGrey80,
-    outline = GreenGrey80
+    outline = GreenGrey60
 )
 
-private val LightColorScheme = lightColorScheme(
+private val LightColorPalette = lightColorScheme(
     primary = Green40,
     onPrimary = Color.White,
     primaryContainer = Green90,
@@ -55,18 +55,18 @@ private val LightColorScheme = lightColorScheme(
     onSecondary = Color.White,
     secondaryContainer = DarkGreen90,
     onSecondaryContainer = DarkGreen10,
-    tertiary = Violet40,
+    tertiary = Orange40,
     onTertiary = Color.White,
-    tertiaryContainer = Violet90,
-    onTertiaryContainer = Violet10,
+    tertiaryContainer = Orange90,
+    onTertiaryContainer = Orange10,
     error = Red40,
     onError = Color.White,
     errorContainer = Red90,
     onErrorContainer = Red10,
     background = Grey99,
     onBackground = Grey10,
-    surface = GreenGrey90,
-    onSurface = GreenGrey30,
+    surface = Grey99,
+    onSurface = Grey10,
     inverseSurface = Grey20,
     inverseOnSurface = Grey95,
     surfaceVariant = GreenGrey90,
@@ -86,8 +86,8 @@ fun MyApplicationTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        darkTheme -> DarkColorPalette
+        else -> LightColorPalette
     }
     val view = LocalView.current
     if (!view.isInEditMode) {
@@ -100,6 +100,7 @@ fun MyApplicationTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
+        shapes = Shapes,
         content = content
     )
 }
